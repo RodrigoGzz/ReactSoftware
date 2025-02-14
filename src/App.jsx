@@ -7,11 +7,11 @@ import Header from './components/header';
 import List from './components/List';
 import Add from './components/Add';
 function App() {
-  const items = [
+  const [items, setItems] = useState([
     {id: 1, name: "item1", price: 1},
     {id: 2, name: "item2", price: 2},
     {id: 3, name: "item3", price: 3}
-  ];
+  ]);
   const [count, setCount] = useState(0);
   const nombre = "Samuel Gonzalez";
   const elemento = `Hello, ${nombre}`;
@@ -19,8 +19,12 @@ function App() {
   const resta = () => {setCount(count - 1)}
   const add = (item) => {
      item.id = items.length + 1;
-     items.push(item);
+     setItems([...items, item]);
   }
+  const del = (id)=> {
+    setItems(items.filter((item)=> item.id !== id));
+
+  };
   return (
   <div>
     <Header/>
@@ -29,7 +33,7 @@ function App() {
     <Boton name={"Resta"} click={resta}/>
     <Boton name={"Mensaje"} click={() => alert(elemento)}/>
       <Add add={add}/>
-    <List items={items}/>
+    <List items={items} ondelete={del}/>
     <Footer/>
   </div>
   );
