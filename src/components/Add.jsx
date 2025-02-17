@@ -1,7 +1,9 @@
 import React, {useState} from 'react'
 import Boton from './Boton'
+import { useNavigate } from 'react-router-dom';
 
 const Add = ({add}) => {
+    const navigate = useNavigate();
     const [name, setName] = useState("");
     const [price, setPrice] = useState("");
     const onsubmit = (e)=> {
@@ -10,6 +12,7 @@ const Add = ({add}) => {
       add({name:name, price:price});
       setName("")
       setPrice("")
+      navigate("/items")
     };
   return (
     <form onSubmit={onsubmit}>
