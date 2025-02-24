@@ -5,6 +5,7 @@ import { useNavigate } from 'react-router-dom';
 const Add = ({add}) => {
     const navigate = useNavigate();
     const [name, setName] = useState("");
+<<<<<<< HEAD
     const [price, setPrice] = useState("");
     const onsubmit = (e)=> {
       e.preventDefault();
@@ -14,12 +15,14 @@ const Add = ({add}) => {
       setPrice("")
       navigate("/items")
     };
+=======
+>>>>>>> parent of 0303be0 (Clase 3)
   return (
-    <form onSubmit={onsubmit}>
+    <div>
       <input onChange={(e)=> setName(e.target.value)} value={name} type="text" name="" id=""/>
-      <input onChange={(e)=> setPrice(e.target.value)} value={price} type="text" name="" id=""/>
-      <input type="submit" value={"add"}/>
-    </form>
+      <input type="text" name="" id=""/>
+      <Boton name="Agregar"/>
+    </div>
   )
 }
 

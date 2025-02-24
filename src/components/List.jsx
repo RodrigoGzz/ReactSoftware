@@ -1,11 +1,11 @@
 import React from 'react'
 import Item from "./item";
 
-const List = ({items, ondelete}) => {
+const List = ({items}) => {
   return (
     <>
       {items.map((i)=> (
-        <Item item={i} key={i.id} ondelete={ondelete} />
+        <Item item={i} />
       ))}
     </>
   )
