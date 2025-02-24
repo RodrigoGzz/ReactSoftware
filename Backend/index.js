@@ -1,8 +1,9 @@
-const express = require("express")
+// const express = require('express');
+import express from "express";
+import indexRoutes from "./routes/index.routes.js";
 
 const app = express();
 
-app.get("/",(req, res)=> res.send("Hola mundo"))
+app.use(indexRoutes);
 
-app.listen(5000, console.log("http://localhost:5000"))
-console.log("Hola")
+app.listen(5000, console.log("http://localhost:5000"));
