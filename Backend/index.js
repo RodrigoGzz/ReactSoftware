@@ -8,6 +8,8 @@ import cors from "cors";
 
 const app = express();
 const port = 5000;
+const express = require('express');
+const routes = require('./routes/index.routes');
 
 app.use(cors());
 app.use(morgan("dev"));
@@ -15,5 +17,8 @@ app.use(express.json());
 app.use(indexRoutes);
 app.use(usersRoutes);
 app.use(loginRoutes);
+app.use(express.json());
+app.use('/api', routes);
 
+const PORT = process.env.PORT || 3000;
 app.listen(port, console.log("http://localhost:" + port));
