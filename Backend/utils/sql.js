@@ -12,7 +12,6 @@ const config = {
     ca: fs.readFileSync("./ca.pem").toString(),
   },
 };
-
 export const connectDB = () => {
   const client = new pg.Client(config);
   client.connect();
