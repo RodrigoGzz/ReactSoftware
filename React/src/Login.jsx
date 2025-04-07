@@ -7,20 +7,27 @@ const Login = ({ login }) => {
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
 
-  const onSubmit = (e) => {
+  const onSubmit = async (e) => {
     e.preventDefault();
     if (!username || !password) {
       alert("Ingresa un dato");
       return;
     }
-
-    const isLogin = login({ username, password });
-    if (isLogin) {
-      setUsername("");
-      setPassword("");
-      navigate("/items");
-    } else {
-      alert("Login Failed");
+    try {
+      const response = await fetch("http://localhost:5000/login", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ username, password }),
+      });
+      const data = await response.json();
+      if (data.isLogin) {
+        login(); // calls parent to set isLogin
+        navigate("/items");
+      } else {
+        alert("Login Failed");
+      }
+    } catch (err) {
+      console.error(err);
     }
   };
 

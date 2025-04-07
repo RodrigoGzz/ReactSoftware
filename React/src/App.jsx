@@ -1,5 +1,5 @@
 import './App.css';
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import Header from './components/header';
 import Boton from './components/Boton';
 import Lista from './components/List';
@@ -9,20 +9,12 @@ import ResponsiveAppBar from './components/Appbar';
 import Login from './Login';
 
 function App() {
-<<<<<<< HEAD
   const initialItems = [
     { id: 1, name: "item1", price: 1 },
     { id: 2, name: "item2", price: 2 },
     { id: 3, name: "item3", price: 3 },
   ];
 
-=======
-  const items = [
-    {id: 1, name: "item1", price: 1},
-    {id: 2, name: "item2", price: 2},
-    {id: 3, name: "item3", price: 3}
-  ];
->>>>>>> parent of 0303be0 (Clase 3)
   const [count, setCount] = useState(0);
   const [items, setItems] = useState(initialItems);
   const [isLogin, setIsLogin] = useState(false);
@@ -39,54 +31,70 @@ function App() {
     setCount(0);
   };
 
-  const add = (item) => {
-<<<<<<< HEAD
-    item.id = items.length + 1;
-    setItems([...items, item]);
+  const add = async (item) => {
+    try {
+      await fetch("http://localhost:5000/items", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(item),
+      });
+      setItems([...items, { ...item, id: items.length + 1 }]);
+    } catch (err) {
+      console.error(err);
+    }
   };
 
-  const del = (id)=> {
-    setItems(items.filter((item)=> item.id !== id));
-
+  const del = (id) => {
+    setItems(items.filter((item) => item.id !== id));
   };
 
-  const login = (user) => {
-    if(user.username === "rodrigo" && user.password === "1234") {
-      setIsLogin(true);
-    } 
-    return isLogin;
-  }
+  const login = async (user) => {
+    try {
+      const response = await fetch("http://localhost:5000/login", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          username: user.username,
+          password: user.password,
+        }),
+      });
+      const data = await response.json();
+      if (data.isLogin) {
+        setIsLogin(true);
+      } else {
+        setIsLogin(false);
+      }
+      return data.isLogin;
+    } catch (err) {
+      console.error(err);
+      return false;
+    }
+  };
 
   const logout = () => {
     setIsLogin(false);
-  }
+  };
+
+  useEffect(() => {
+    if (isLogin) {
+      fetch("http://localhost:5000/items")
+        .then((res) => res.json())
+        .then((data) => setItems(data))
+        .catch((err) => console.error(err));
+    }
+  }, [isLogin]);
+
   return (
     <div>
       <BrowserRouter>
-      {isLogin && <ResponsiveAppBar logout={logout} />}
-      <Routes>
-        <Route path="/" element={<Login login={login}/>} />
-        <Route path="/add" element={<Add add={add}/>} />
-        <Route path="/items" element={<Lista items={items} ondelete={del} />} />
-      </Routes>
+        {isLogin && <ResponsiveAppBar logout={logout} />}
+        <Routes>
+          <Route path="/" element={<Login login={login} />} />
+          <Route path="/add" element={<Add add={add} />} />
+          <Route path="/items" element={<Lista items={items} ondelete={del} />} />
+        </Routes>
       </BrowserRouter>
     </div>
-=======
-     item.id = items.length + 1;
-     items.push(item);
-  }
-  return (
-  <div>
-    <Header/>
-    {count}
-    <Boton name={"Suma"} click={sum}/>
-    <Boton name={"Resta"} click={resta}/>
-    <Boton name={"Mensaje"} click={() => alert(elemento)}/>
-      <Add add={add}/>
-    <List items={items}/>
-    <Footer/>
-  </div>
->>>>>>> parent of 0303be0 (Clase 3)
   );
 }
 
