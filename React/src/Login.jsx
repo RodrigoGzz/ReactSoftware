@@ -3,6 +3,7 @@ import React, { useState } from 'react';
 import { useNavigate } from "react-router-dom";
 
 const Login = ({ login }) => {
+  const API_URL = process.env.REACT_APP_API_URL;
   const navigate = useNavigate();
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
