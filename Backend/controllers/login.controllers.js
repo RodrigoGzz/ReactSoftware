@@ -23,6 +23,11 @@ export const login = async (req, res) => {
     const hash = hashPassword(password, salt);
     const saltedHash = salt + hash;
 
+    console.log("Password from Firestore:", user.password);
+    console.log("Extracted salt:", salt);
+    console.log("Generated hash:", hash);
+    console.log("Generated saltedHash:", saltedHash);
+
     if (saltedHash !== user.password) {
       return res.status(401).json({ message: "Incorrect password" });
     }
