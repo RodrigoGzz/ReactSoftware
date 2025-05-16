@@ -11,7 +11,7 @@ import { collection, getDocs } from "firebase/firestore"; // Firestore methods w
 const app = express();
 const port = 5001;
 
-const allowedOrigins = ["https://react-software-kv6t.vercel.app/"
+const allowedOrigins = ["https://react-software-kv6t.vercel.app"
 
 ];
 
