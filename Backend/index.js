@@ -6,12 +6,12 @@ import loginRoutes from "./routes/login.routes.js";
 import morgan from "morgan";
 import cors from "cors";
 import { db } from "./utils/firebase.js"; // Import Firebase
-import { collection, getDocs } from "firebase/firestore"; // Firestore methods
+import { collection, getDocs } from "firebase/firestore"; // Firestore methods wa
 
 const app = express();
 const port = 5001;
 
-const allowedOrigins = ["https://react-software.vercel.app/"
+const allowedOrigins = ["https://react-software-kv6t.vercel.app/"
 
 ];
 
