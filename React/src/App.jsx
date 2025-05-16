@@ -36,7 +36,7 @@ function App() {
     try {
       await fetch(`${API_URL}/items`, {
         method: "POST",
-        headers: { "Content-Type": "application/json" },
+        headers: { "Content-Type": "application/json" }, //Hola
         body: JSON.stringify(item),
       });
       setItems([...items, { ...item, id: items.length + 1 }]);
