@@ -11,7 +11,28 @@ import { collection, getDocs } from "firebase/firestore"; // Firestore methods
 const app = express();
 const port = 5001;
 
-app.use(cors());
+const allowedOrigins = ["https://react-software.vercel.app/"
+
+];
+
+// Middleware para eliminar barras diagonales dobles en la URL
+app.use((req, res, next) => {
+  req.url = req.url.replace(/\/+/g, "/");
+  next();
+});
+
+app.use(
+  cors({
+    origin: (origin, callback) => {
+      if (!origin || allowedOrigins.includes(origin)) {
+        callback(null, true);
+      } else {
+        callback(new Error("Not allowed by CORS"));
+      }
+    },
+  })
+);
+
 app.use(morgan("dev"));
 app.use(express.json());
 app.use(indexRoutes);
