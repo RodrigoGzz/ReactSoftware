@@ -9,6 +9,7 @@ import ResponsiveAppBar from './components/Appbar';
 import Login from './Login';
 
 function App() {
+  const API_URL = process.env.REACT_APP_API_URL;
   const initialItems = [
     { id: 1, name: "item1", price: 1 },
     { id: 2, name: "item2", price: 2 },
@@ -33,7 +34,7 @@ function App() {
 
   const add = async (item) => {
     try {
-      await fetch("http://localhost:5000/items", {
+      await fetch(`${API_URL}/items`, {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify(item),
@@ -50,7 +51,7 @@ function App() {
 
   const login = async (user) => {
     try {
-      const response = await fetch("http://localhost:5000/login", {
+      const response = await fetch(`${API_URL}/login`, {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({
@@ -77,7 +78,7 @@ function App() {
 
   useEffect(() => {
     if (isLogin) {
-      fetch("http://localhost:5000/items")
+      fetch(`⁠${API_URL}/items`)
         .then((res) => res.json())
         .then((data) => setItems(data))
         .catch((err) => console.error(err));
