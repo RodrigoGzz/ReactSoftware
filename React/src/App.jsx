@@ -9,7 +9,7 @@ import ResponsiveAppBar from './components/Appbar';
 import Login from './Login';
 
 function App() {
-  const API_URL = process.env.REACT_APP_API_URL;
+  const API_URL = process.env.REACT_APP_API_URL || "http://localhost:5001";
   const initialItems = [
     { id: 1, name: "item1", price: 1 },
     { id: 2, name: "item2", price: 2 },
