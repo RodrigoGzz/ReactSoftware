@@ -54,9 +54,9 @@ app.get("/firebase/items", async (req, res) => {
     res.status(500).json({ error: error.message });
   }
 });
-/*
+
 app.listen(port, () => {
   console.log(`Server running on port ${port}`);
 });
-*/
+
 export default app;

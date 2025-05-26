@@ -21,15 +21,21 @@ const Login = ({ login }) => {
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ username, password }),
       });
+      
+      console.log("Response status:", response.status);
       const data = await response.json();
-      if (data.isLogin) {
+      console.log("Response data:", data);
+      
+      if (data.token) {
+        // Store the token if needed (optional)
+        localStorage.setItem('token', data.token);
         login();
         navigate("/items");
       } else {
         alert("Login Failed");
       }
     } catch (err) {
-      console.error(err);
+      console.error("Login error:", err);
     }
   };
 

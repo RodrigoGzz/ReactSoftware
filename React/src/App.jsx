@@ -49,27 +49,8 @@ function App() {
     setItems(items.filter((item) => item.id !== id));
   };
 
-  const login = async (user) => {
-    try {
-      const response = await fetch(`${API_URL}/login`, {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({
-          username: user.username,
-          password: user.password,
-        }),
-      });
-      const data = await response.json();
-      if (data.isLogin) {
-        setIsLogin(true);
-      } else {
-        setIsLogin(false);
-      }
-      return data.isLogin;
-    } catch (err) {
-      console.error(err);
-      return false;
-    }
+  const login = () => {
+    setIsLogin(true);
   };
 
   const logout = () => {
@@ -78,7 +59,7 @@ function App() {
 
   useEffect(() => {
     if (isLogin) {
-      fetch(`⁠${API_URL}/items`)
+      fetch(`${API_URL}/items`)
         .then((res) => res.json())
         .then((data) => setItems(data))
         .catch((err) => console.error(err));
