@@ -9,7 +9,7 @@ import ResponsiveAppBar from './components/Appbar';
 import Login from './Login';
 
 function App() {
-  const API_URL = process.env.REACT_APP_API_URL || "http://localhost:5001";
+  const API_URL = process.env.REACT_APP_API_URL ;
   const initialItems = [
     { id: 1, name: "item1", price: 1 },
     { id: 2, name: "item2", price: 2 },
@@ -34,14 +34,23 @@ function App() {
 
   const add = async (item) => {
     try {
-      await fetch(`${API_URL}/items`, {
+      console.log("Sending item to backend:", item);
+      const response = await fetch(`${API_URL}/items`, {
         method: "POST",
-        headers: { "Content-Type": "application/json" }, //Hola
+        headers: { "Content-Type": "application/json" },
         body: JSON.stringify(item),
       });
-      setItems([...items, { ...item, id: items.length + 1 }]);
+      
+      if (!response.ok) {
+        throw new Error(`HTTP error! status: ${response.status}`);
+      }
+      
+      const newItem = await response.json();
+      console.log("Item created:", newItem);
+      setItems([...items, newItem]);
     } catch (err) {
-      console.error(err);
+      console.error("Error adding item:", err);
+      alert("Error adding item. Please try again.");
     }
   };
 
