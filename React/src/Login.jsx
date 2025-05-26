@@ -23,7 +23,7 @@ const Login = ({ login }) => {
       });
       const data = await response.json();
       if (data.isLogin) {
-        login({ username, password }); // Pasa las credenciales al método login del padre
+        login();
         navigate("/items");
       } else {
         alert("Login Failed");
