@@ -8,6 +8,7 @@ const SECRET_KEY = "Clave123";
 export const login = async (req, res) => {
   try {
     const { username, password } = req.body;
+    console.log("Login attempt for user:", username);
 
     // Query Firestore for the user
     const usersCollection = collection(db, "users");
@@ -29,7 +30,7 @@ export const login = async (req, res) => {
     console.log("Generated saltedHash:", saltedHash);
 
     if (saltedHash !== user.password) {
-      return res.status(401).json({ message: "Incorrect password" });
+      return res.status(400).json({ message: "Incorrect password" });
     }
 
     // Generate JWT token

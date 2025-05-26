@@ -15,6 +15,7 @@ const Login = ({ login }) => {
       return;
     }
     try {
+      console.log("Login attempt for user: Front: ", username);
       const response = await fetch(`${API_URL}/login`, {
         method: "POST",
         headers: { "Content-Type": "application/json" },

@@ -11,8 +11,11 @@ import { collection, getDocs } from "firebase/firestore"; // Firestore methods w
 const app = express();
 const port = 5001;
 
-const allowedOrigins = ["https://react-software-kv6t.vercel.app, localhost:3000", "http://localhost:5001"
 
+const allowedOrigins = [
+  "https://react-software-kv6t.vercel.app",
+  "http://localhost:3000",
+  "http://localhost:5001"
 ];
 
 // Middleware para eliminar barras diagonales dobles en la URL
@@ -21,6 +24,7 @@ app.use((req, res, next) => {
   next();
 });
 
+// Configurar CORS
 app.use(
   cors({
     origin: (origin, callback) => {
@@ -30,6 +34,7 @@ app.use(
         callback(new Error("Not allowed by CORS"));
       }
     },
+    credentials: true, 
   })
 );
 
