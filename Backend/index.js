@@ -6,7 +6,7 @@ import loginRoutes from "./routes/login.routes.js";
 import morgan from "morgan";
 import cors from "cors";
 import { db } from "./utils/firebase.js"; // Import Firebase
-import { collection, getDocs } from "firebase/firestore"; // Firestore methods wa
+import { collection, getDocs, addDoc } from "firebase/firestore"; // Firestore methods wa
 
 const app = express();
 const port = 5001;
@@ -44,12 +44,26 @@ app.use(indexRoutes);
 app.use(usersRoutes);
 app.use(loginRoutes);
 
-// Example Firebase route
+// Items routes
 app.get("/firebase/items", async (req, res) => {
   try {
-    const snap = await getDocs(collection(db, "items")); // Replace "items" with your collection name
+    const snap = await getDocs(collection(db, "items"));
     const items = snap.docs.map((doc) => ({ id: doc.id, ...doc.data() }));
     res.json(items);
+  } catch (error) {
+    res.status(500).json({ error: error.message });
+  }
+});
+
+app.post("/items", async (req, res) => {
+  try {
+    const { name, price } = req.body;
+    const itemsCollection = collection(db, "items");
+    const newItem = await addDoc(itemsCollection, {
+      name,
+      price: parseInt(price) || 0
+    });
+    res.json({ id: newItem.id, name, price });
   } catch (error) {
     res.status(500).json({ error: error.message });
   }

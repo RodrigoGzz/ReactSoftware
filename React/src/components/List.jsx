@@ -1,11 +1,14 @@
 import React from 'react'
 import Item from "./item";
 
-const List = ({items}) => {
+const List = ({items, ondelete}) => {
+  // Ensure items is always an array
+  const safeItems = Array.isArray(items) ? items : [];
+  
   return (
     <>
-      {items.map((i)=> (
-        <Item item={i} />
+      {safeItems.map((i)=> (
+        <Item key={i.id} item={i} />
       ))}
     </>
   )

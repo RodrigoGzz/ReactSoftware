@@ -6,6 +6,7 @@ const Add = ({add}) => {
     const navigate = useNavigate();
     const [name, setName] = useState("");
     const [price, setPrice] = useState("");
+    
     const onsubmit = (e)=> {
       e.preventDefault();
       if(!name || !price) {alert("Ingresa un dato"); return};
@@ -14,12 +15,25 @@ const Add = ({add}) => {
       setPrice("")
       navigate("/items")
     };
+    
   return (
-    <div>
-      <input onChange={(e)=> setName(e.target.value)} value={name} type="text" name="" id=""/>
-      <input type="text" name="" id=""/>
-      <Boton name="Agregar"/>
-    </div>
+    <form onSubmit={onsubmit}>
+      <div>
+        <input 
+          onChange={(e)=> setName(e.target.value)} 
+          value={name} 
+          type="text" 
+          placeholder="Nombre del producto"
+        />
+        <input 
+          onChange={(e)=> setPrice(e.target.value)} 
+          value={price} 
+          type="number" 
+          placeholder="Precio"
+        />
+        <Boton name="Agregar"/>
+      </div>
+    </form>
   )
 }
 

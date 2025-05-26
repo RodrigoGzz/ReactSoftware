@@ -17,7 +17,7 @@ function App() {
   ];
 
   const [count, setCount] = useState(0);
-  const [items, setItems] = useState(initialItems);
+  const [items, setItems] = useState([]);
   const [isLogin, setIsLogin] = useState(false);
 
   const sum = () => {
@@ -59,10 +59,23 @@ function App() {
 
   useEffect(() => {
     if (isLogin) {
-      fetch(`${API_URL}/items`)
+      fetch(`${API_URL}/firebase/items`)
         .then((res) => res.json())
-        .then((data) => setItems(data))
-        .catch((err) => console.error(err));
+        .then((data) => {
+          console.log("Fetched data:", data);
+          if (Array.isArray(data)) {
+            setItems(data);
+          } else {
+            console.warn("API did not return an array, using initial items");
+            setItems(initialItems);
+          }
+        })
+        .catch((err) => {
+          console.error("Error fetching items:", err);
+          setItems(initialItems);
+        });
+    } else {
+      setItems([]);
     }
   }, [isLogin]);
 
