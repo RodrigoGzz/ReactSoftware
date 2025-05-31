@@ -2,7 +2,7 @@ import { Box, Button, TextField } from "@mui/material";
 import React, { useState } from 'react';
 import { useNavigate } from "react-router-dom";
 
-const Login = ({ login }) => {
+const Login = ({ onLogin }) => {
   const API_URL = process.env.REACT_APP_API_URL || "http://localhost:5001";
   const navigate = useNavigate();
   const [username, setUsername] = useState("");
@@ -27,9 +27,7 @@ const Login = ({ login }) => {
       console.log("Response data:", data);
       
       if (data.token) {
-        // Store the token if needed (optional)
-        localStorage.setItem('token', data.token);
-        login();
+        onLogin(data.token);
         navigate("/items");
       } else {
         alert("Login Failed");

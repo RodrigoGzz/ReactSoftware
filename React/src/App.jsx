@@ -1,101 +1,26 @@
 import './App.css';
-import { useState, useEffect } from "react";
-import Header from './components/header';
-import Boton from './components/Boton';
 import Lista from './components/List';
 import Add from './components/Add';
 import { BrowserRouter, Route, Routes } from 'react-router-dom';
 import ResponsiveAppBar from './components/Appbar';
 import Login from './Login';
+import ItemDetail from './components/ItemDetail';
+import useAuth from './hooks/useAuth';
+import useItems from './hooks/useItems';
 
 function App() {
-  const API_URL = process.env.REACT_APP_API_URL ;
-  const initialItems = [
-    { id: 1, name: "item1", price: 1 },
-    { id: 2, name: "item2", price: 2 },
-    { id: 3, name: "item3", price: 3 },
-  ];
-
-  const [count, setCount] = useState(0);
-  const [items, setItems] = useState([]);
-  const [isLogin, setIsLogin] = useState(false);
-
-  const sum = () => {
-    setCount(count + 1);
-  };
-
-  const resta = () => {
-    setCount(count - 1);
-  };
-
-  const reset = () => {
-    setCount(0);
-  };
-
-  const add = async (item) => {
-    try {
-      console.log("Sending item to backend:", item);
-      const response = await fetch(`${API_URL}/items`, {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify(item),
-      });
-      
-      if (!response.ok) {
-        throw new Error(`HTTP error! status: ${response.status}`);
-      }
-      
-      const newItem = await response.json();
-      console.log("Item created:", newItem);
-      setItems([...items, newItem]);
-    } catch (err) {
-      console.error("Error adding item:", err);
-      alert("Error adding item. Please try again.");
-    }
-  };
-
-  const del = (id) => {
-    setItems(items.filter((item) => item.id !== id));
-  };
-
-  const login = () => {
-    setIsLogin(true);
-  };
-
-  const logout = () => {
-    setIsLogin(false);
-  };
-
-  useEffect(() => {
-    if (isLogin) {
-      fetch(`${API_URL}/firebase/items`)
-        .then((res) => res.json())
-        .then((data) => {
-          console.log("Fetched data:", data);
-          if (Array.isArray(data)) {
-            setItems(data);
-          } else {
-            console.warn("API did not return an array, using initial items");
-            setItems(initialItems);
-          }
-        })
-        .catch((err) => {
-          console.error("Error fetching items:", err);
-          setItems(initialItems);
-        });
-    } else {
-      setItems([]);
-    }
-  }, [isLogin]);
+  const { isLogin, login, logout } = useAuth();
+  const { items, addItem, deleteItem, getItemById } = useItems(isLogin);
 
   return (
     <div>
       <BrowserRouter>
         {isLogin && <ResponsiveAppBar logout={logout} />}
         <Routes>
-          <Route path="/" element={<Login login={login} />} />
-          <Route path="/add" element={<Add add={add} />} />
-          <Route path="/items" element={<Lista items={items} ondelete={del} />} />
+          <Route path="/" element={<Login onLogin={login} />} />
+          <Route path="/add" element={<Add addItem={addItem} />} />
+          <Route path="/items" element={<Lista items={items} ondelete={deleteItem} />} />
+          <Route path="/items/:id" element={<ItemDetail getItemById={getItemById} />} />
         </Routes>
       </BrowserRouter>
     </div>

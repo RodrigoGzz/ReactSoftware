@@ -6,11 +6,11 @@ const List = ({items, ondelete}) => {
   const safeItems = Array.isArray(items) ? items : [];
   
   return (
-    <>
+    <div>
       {safeItems.map((i)=> (
-        <Item key={i.id} item={i} />
+        <Item key={i.id} item={i} ondelete={ondelete} />
       ))}
-    </>
+    </div>
   )
 }
 
